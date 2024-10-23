@@ -1945,7 +1945,6 @@ if((cache_type == IS_L1I || cache_type == IS_L1D) && reads_ready.size() == 0)
 
                                 // add it to the next level's read queue
                                 if (lower_level){
-                                    RQ.entry->hit_loc = -1;
                                     lower_level->add_rq(&RQ.entry[index]);
                                 }
                                 else { // this is the last level
