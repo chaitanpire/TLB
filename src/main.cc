@@ -1816,7 +1816,6 @@ int main(int argc, char** argv)
 	ooo_cpu[i].DTLB.dtlb_prefetcher_final_stats();
 	ooo_cpu[i].STLB.stlb_prefetcher_final_stats();
     ooo_cpu[i].STLB.stlb_replacement_final_stats();
-    cout<<"STLBmisslatencies: "<<endl;
     
     }
 

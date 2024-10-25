@@ -63,7 +63,7 @@ void CACHE::stlb_update_replacement_state(uint32_t cpu, uint32_t set, uint32_t w
 void CACHE::stlb_replacement_final_stats()
 {
     cout << "Number of unique pages in STLB: " << ptes.size() << endl;
-
+    cout << "STLB Miss Latencies Data:" << endl;
     for(auto it: miss_latency_map)
     {
         cout<<it.first<<" ";
