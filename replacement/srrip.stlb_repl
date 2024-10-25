@@ -64,7 +64,7 @@ void CACHE::stlb_replacement_final_stats()
 {
     cout << "Number of unique pages in STLB: " << ptes.size() << endl;
     cout << "STLB Miss Latencies Data:" << endl;
-    cout << "Size of Miss Latencies Map: " << miss_latencies_map.size() << endl;
+    cout << "Size of Miss Latencies Map: " << miss_latency_map.size() << endl;
     for(auto it: miss_latency_map)
     {
         cout<<it.first<<" ";
