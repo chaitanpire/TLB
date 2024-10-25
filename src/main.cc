@@ -495,6 +495,9 @@ void finish_warmup()
     cout << endl;
     for (uint32_t i=0; i<NUM_CPUS; i++) {
         cout << "Warmup complete CPU " << i << " instructions: " << ooo_cpu[i].num_retired << " cycles: " << current_core_cycle[i];
+        FILE *fp = fopen("collisions.txt","a");
+        fprintf(fp, "WARMPUP COMPLETE CPU %d INSTRUCTIONS: %lu CYCLES: %lu\n", i, ooo_cpu[i].num_retired, current_core_cycle[i]);
+        fclose(fp);
         cout << " (Simulation time: " << elapsed_hour << " hr " << elapsed_minute << " min " << elapsed_second << " sec) " << endl;
 
         ooo_cpu[i].begin_sim_cycle = current_core_cycle[i]; 

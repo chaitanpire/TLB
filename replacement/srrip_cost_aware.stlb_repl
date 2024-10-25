@@ -27,24 +27,32 @@ uint32_t CACHE::stlb_find_victim(uint32_t cpu, uint64_t instr_id, uint32_t set, 
     int min_loc_index;
     while (1)
     {   
-        FILE *fp = fopen("collisions.txt","a");
-        for(int i=0;i<STLB_WAY;i++){
+        int min_way = INT16_MAX;
+        int min_way_index=-1;
+        bool flag = false;
+        for(int i = 0; i < STLB_WAY; i++){
             if(rrpv[set][i] == maxRRPV){
+                flag = true;
+                min_way_index = i;
+                break;
+            }
+        }
 
+
+        for (int i=0; i<STLB_WAY; i++){
+            if (rrpv[set][i] == maxRRPV){
                 if(miss_latency_map[current_set[i].full_addr>>LOG2_PAGE_SIZE].size() ){
-                    fprintf(fp,"%llu : %llu   ",(unsigned long long)current_set[i].full_addr, (unsigned long long)miss_latency_map[current_set[i].full_addr>>LOG2_PAGE_SIZE].back());
+                   if(min_way>miss_latency_map[current_set[i].full_addr>>LOG2_PAGE_SIZE].back()){
+                       min_way = miss_latency_map[current_set[i].full_addr>>LOG2_PAGE_SIZE].back();
+                       min_way_index = i;
+                   }
                 }
             }
         }
-        fprintf(fp,"\n");
-        fclose(fp);
-        
-        for (int i=0; i<STLB_WAY; i++)
-            if (rrpv[set][i] == maxRRPV){
-               
-                return i;
-            }
 
+
+        if(flag) return min_way_index; 
+        
         for (int i=0; i<STLB_WAY; i++)
             rrpv[set][i]++;
     }

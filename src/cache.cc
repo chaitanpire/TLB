@@ -715,13 +715,14 @@ void CACHE::handle_fill()
 #endif
             }
 
+
+            uint64_t current_miss_latency = (current_core_cycle[fill_cpu] - MSHR.entry[mshr_index].cycle_enqueued);
+            miss_latency_map[MSHR.entry[mshr_index].full_addr>>LOG2_PAGE_SIZE].push_back(current_miss_latency);
             if(warmup_complete[fill_cpu])
             {
-                uint64_t current_miss_latency = (current_core_cycle[fill_cpu] - MSHR.entry[mshr_index].cycle_enqueued);
                 total_miss_latency += current_miss_latency;
-                miss_latency_map[MSHR.entry[mshr_index].full_addr>>LOG2_PAGE_SIZE].push_back(current_miss_latency);
-
             }
+
             MSHR.remove_queue(&MSHR.entry[mshr_index]);
             MSHR.num_returned--;
 
