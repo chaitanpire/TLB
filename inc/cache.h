@@ -1,6 +1,6 @@
 #ifndef CACHE_H
 #define CACHE_H
-
+#include <unordered_map>
 #include "memory_class.h"
 // INICIO AGUS
 extern void notify_prefetch(uint64_t addr, uint64_t tag, uint32_t cpu, uint64_t cycle);
@@ -109,6 +109,7 @@ extern uint32_t PAGE_TABLE_LATENCY, SWAP_LATENCY;
 
 class CACHE : public MEMORY {
   public:
+    std::unordered_map<uint64_t, vector<uint64_t>> miss_latency_map;
     uint32_t cpu;
     const string NAME;
     const uint32_t NUM_SET, NUM_WAY, NUM_LINE, WQ_SIZE, RQ_SIZE, PQ_SIZE, MSHR_SIZE;

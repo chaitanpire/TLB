@@ -179,6 +179,8 @@ void CACHE::handle_fill()
             {
                 uint64_t current_miss_latency = (current_core_cycle[fill_cpu] - MSHR.entry[mshr_index].cycle_enqueued);	
                 total_miss_latency += current_miss_latency;
+                                       
+
             }
 
             MSHR.remove_queue(&MSHR.entry[mshr_index]);
@@ -717,6 +719,8 @@ void CACHE::handle_fill()
             {
                 uint64_t current_miss_latency = (current_core_cycle[fill_cpu] - MSHR.entry[mshr_index].cycle_enqueued);
                 total_miss_latency += current_miss_latency;
+                miss_latency_map[MSHR.entry[mshr_index].address<<LOG2_PAGE_SIZE].push_back(current_miss_latency);
+
             }
 
             MSHR.remove_queue(&MSHR.entry[mshr_index]);

@@ -1815,6 +1815,9 @@ int main(int argc, char** argv)
         ooo_cpu[i].L2C.l2c_prefetcher_final_stats();
 	ooo_cpu[i].DTLB.dtlb_prefetcher_final_stats();
 	ooo_cpu[i].STLB.stlb_prefetcher_final_stats();
+    ooo_cpu[i].STLB.stlb_replacement_final_stats();
+    cout<<"STLBmisslatencies: "<<endl;
+    
     }
 
     uncore.LLC.llc_prefetcher_final_stats();
@@ -1850,7 +1853,7 @@ int main(int argc, char** argv)
     cout<<"DRAM PAGES: "<<DRAM_PAGES<<endl;
     cout<<"Allocated PAGES: "<<allocated_pages<<endl;
 
-
+    
     //@Vasudha: Dumping page table
 /*     map <uint64_t, uint64_t>::iterator pr = page_table.begin();
             for (pr = page_table.begin(); pr != page_table.end(); pr++) {
