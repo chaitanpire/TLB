@@ -27,15 +27,21 @@ uint32_t CACHE::stlb_find_victim(uint32_t cpu, uint64_t instr_id, uint32_t set, 
     int min_loc_index;
     while (1)
     {   
-        FILE *fp = fopen("collisions.txt","a");
-        for(int i=0;i<STLB_WAY;i++){
-            if(rrpv[set][i] == maxRRPV){
-                cout<<miss_latency_map[current_set[i].full_addr>>LOG2_PAGE_SIZE].size()<<endl;
-                fprintf(fp,"%llu : %llu   ",(unsigned long long)current_set[i].full_addr, (unsigned long long)miss_latency_map[current_set[i].full_addr>>LOG2_PAGE_SIZE].back());
-            }
-        }
-        fprintf(fp, "\n");
-        fclose(fp);
+        // bool flag = false;
+        // FILE *fp = fopen("collisions.txt","a");
+        // for(int i=0;i<STLB_WAY;i++){
+        //     if(rrpv[set][i] == maxRRPV){
+
+        //         if(miss_latency_map[current_set[i].full_addr>>LOG2_PAGE_SIZE].size() ){
+        //             flag = true;
+        //             fprintf(fp,"%llu : %llu   ",(unsigned long long)current_set[i].full_addr, (unsigned long long)miss_latency_map[current_set[i].full_addr>>LOG2_PAGE_SIZE].back());
+        //         }
+        //     }
+        // }
+        // if(flag)
+        //     fprintf(fp,"\n");
+        // fclose(fp);
+        
         for (int i=0; i<STLB_WAY; i++)
             if (rrpv[set][i] == maxRRPV){
                
