@@ -26,9 +26,9 @@ L2C_REPLACEMENT=lru   # prefetcher/*.l2c_repl
 LLC_REPLACEMENT=lru   # prefetcher/*.llc_repl
 ITLB_REPLACEMENT=lru  # prefetcher/*.itlb_repl
 DTLB_REPLACEMENT=lru  # prefetcher/*.dtlb_repl
-STLB_REPLACEMENT=srrip  # prefetcher/*.stlb_repl
+STLB_REPLACEMENT=${3}  # prefetcher/*.stlb_repl
 
-NUM_CORE=${3}         # tested up to 8-core system
+NUM_CORE=${4}         # tested up to 8-core system
 
 ############## Some useful macros ###############
 BOLD=$(tput bold)
@@ -231,7 +231,7 @@ echo "DTLB Replacement: ${DTLB_REPLACEMENT}"
 echo "STLB Replacement: ${STLB_REPLACEMENT}"
 
 echo "Cores: ${NUM_CORE}"
-BINARY_NAME="${L1D_PREFETCHER}-${STLB_PREFETCHER}-${NUM_CORE}core"
+BINARY_NAME="${STLB_REPLACEMENT}-${NUM_CORE}core"
 echo "Binary: bin/${BINARY_NAME}"
 echo ""
 mv bin/champsim bin/${BINARY_NAME}
