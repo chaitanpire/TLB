@@ -74,6 +74,7 @@ class DRAM_ARRAY {
 class PACKET {
   public:
     uint8_t instruction,
+        latency_to_come,
         hit_loc,
 	    is_data,
 	    fill_l1i,
@@ -149,6 +150,7 @@ class PACKET {
 
     PACKET() {
         instruction = 0;
+        latency_to_come = 0;
         hit_loc = -1;
 	is_data = 1;
         fill_l1i = 0;

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ "$#" -lt 3 ]; then
+if [ "$#" -lt 2 ]; then
     echo "Illegal number of parameters"
     echo "Usage: ./build_champsim.sh [branch_pred] [l1i_pref] [l1d_pref]
     [l2c_pref] [llc_pref] [itlb_pref] [dtlb_pref] [stlb_pref] [btb_repl]
@@ -12,12 +12,12 @@ fi
 # ChampSim configuration
 BRANCH=bimodal           # branch/*.bpred
 L1I_PREFETCHER=no   # prefetcher/*.l1i_pref
-L1D_PREFETCHER=${1}   # prefetcher/*.l1d_pref
+L1D_PREFETCHER=no   # prefetcher/*.l1d_pref
 L2C_PREFETCHER=no   # prefetcher/*.l2c_pref
 LLC_PREFETCHER=no   # prefetcher/*.llc_pref
 ITLB_PREFETCHER=no  # prefetcher/*.itlb_pref
 DTLB_PREFETCHER=no  # prefetcher/*.dtlb_pref
-STLB_PREFETCHER=${2}  # prefetcher/*.stlb_pref
+STLB_PREFETCHER=no  # prefetcher/*.stlb_pref
 
 BTB_REPLACEMENT=lru   # prefetcher/*.btb_repl	
 L1I_REPLACEMENT=lru   # prefetcher/*.l1i_repl
@@ -26,9 +26,9 @@ L2C_REPLACEMENT=lru   # prefetcher/*.l2c_repl
 LLC_REPLACEMENT=lru   # prefetcher/*.llc_repl
 ITLB_REPLACEMENT=lru  # prefetcher/*.itlb_repl
 DTLB_REPLACEMENT=lru  # prefetcher/*.dtlb_repl
-STLB_REPLACEMENT=${3}  # prefetcher/*.stlb_repl
+STLB_REPLACEMENT=${1}  # prefetcher/*.stlb_repl
 
-NUM_CORE=${4}         # tested up to 8-core system
+NUM_CORE=${2}         # tested up to 8-core system
 
 ############## Some useful macros ###############
 BOLD=$(tput bold)
