@@ -1,5 +1,4 @@
 Benchmark,LRU Miss Latency,SRRIP Miss Latency,SRRIP_cost_aware_max Miss Latency,SRRIP_cost_aware_min Miss Latency
-605.mcf_s-1644B.champsimtrace.xz,569.239,941.171,948.665,935.743
 429.mcf-217B.champsimtrace.xz,57.3616,60.2148,89.3061,75.9882
 483.xalancbmk-736B.champsimtrace.xz,138.554,200.138,193.841,190.946
 605.mcf_s-994B.champsimtrace.xz,128.523,129.242,128.595,128.474
@@ -11,5 +10,3 @@ Benchmark,LRU Miss Latency,SRRIP Miss Latency,SRRIP_cost_aware_max Miss Latency,
 605.mcf_s-665B.champsimtrace.xz,101.73,100.982,100.316,78.2102
 429.mcf-192B.champsimtrace.xz,127.153,92.9353,90.369,98.4097
 605.mcf_s-782B.champsimtrace.xz,134.393,134.142,134.434,133.57
-623.xalancbmk_s-165B.champsimtrace.xz,265.375,265.375,265.375,265.375
-400.perlbench-41B.champsimtrace.xz,77.84,N/A,N/A,N/A
