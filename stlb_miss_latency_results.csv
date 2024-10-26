@@ -1,0 +1,15 @@
+Benchmark,LRU Miss Latency,SRRIP Miss Latency,SRRIP_cost_aware_max Miss Latency,SRRIP_cost_aware_min Miss Latency
+605.mcf_s-1644B.champsimtrace.xz,569.239,941.171,948.665,935.743
+429.mcf-217B.champsimtrace.xz,57.3616,60.2148,89.3061,75.9882
+483.xalancbmk-736B.champsimtrace.xz,138.554,200.138,193.841,190.946
+605.mcf_s-994B.champsimtrace.xz,128.523,129.242,128.595,128.474
+623.xalancbmk_s-700B.champsimtrace.xz,22.7658,25.3387,27.9506,28.4792
+483.xalancbmk-716B.champsimtrace.xz,165.619,195.134,196.43,197.472
+429.mcf-184B.champsimtrace.xz,118.636,107.127,105.595,106.741
+450.soplex-247B.champsimtrace.xz,83.0534,86.3935,85.9906,86.6009
+450.soplex-92B.champsimtrace.xz,75.2648,77.4214,78.125,77.8854
+605.mcf_s-665B.champsimtrace.xz,101.73,100.982,100.316,78.2102
+429.mcf-192B.champsimtrace.xz,127.153,92.9353,90.369,98.4097
+605.mcf_s-782B.champsimtrace.xz,134.393,134.142,134.434,133.57
+623.xalancbmk_s-165B.champsimtrace.xz,265.375,265.375,265.375,265.375
+400.perlbench-41B.champsimtrace.xz,77.84,N/A,N/A,N/A
