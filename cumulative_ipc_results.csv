@@ -1,0 +1,20 @@
+Benchmark,SRRIP IPC,SRRIP_max IPC,SRRIP_min IPC,LRU IPC
+logs_srrip,,,,N/A
+623.xalancbmk_s-165B.champsimtrace.xz,0.411731,0.411731,0.411731,0.410515
+traces,,,,N/A
+619.lbm_s-2677B.champsimtrace.xz,,,,
+619.lbm_s-2676B.champsimtrace.xz,,,,0.497241
+619.lbm_s-3766B.champsimtrace.xz,,,,
+619.lbm_s-4268B.champsimtrace.xz,,,,
+429.mcf-184B.champsimtrace.xz,0.068591,0.0685792,0.0685238,0.0654595
+605.mcf_s-994B.champsimtrace.xz,0.163907,0.16388,0.163891,0.165245
+450.soplex-247B.champsimtrace.xz,0.281164,0.281187,0.281182,0.267089
+623.xalancbmk_s-700B.champsimtrace.xz,0.314906,0.31518,0.315031,0.313672
+429.mcf-192B.champsimtrace.xz,0.069809,0.0698166,0.0697095,0.0660565
+450.soplex-92B.champsimtrace.xz,0.314461,0.31437,0.314425,0.292954
+605.mcf_s-665B.champsimtrace.xz,0.245256,0.245232,0.244973,0.239294
+605.mcf_s-782B.champsimtrace.xz,0.155179,0.15516,0.155057,0.140169
+605.mcf_s-1644B.champsimtrace.xz,0.143259,0.143332,0.14315,0.142484
+429.mcf-217B.champsimtrace.xz,0.210405,0.209724,0.210252,0.213847
+483.xalancbmk-736B.champsimtrace.xz,0.813002,0.813083,0.812626,0.814812
+483.xalancbmk-716B.champsimtrace.xz,0.50343,0.503415,0.503394,0.50537

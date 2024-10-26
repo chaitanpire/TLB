@@ -1,8 +1,7 @@
 import matplotlib.pyplot as plt
 
-# Initialize lists to store the computed averages
-all_values_avg = []
-top_3_values_avg = []
+# Initialize a list to store the differences of max and min values
+max_min_diffs = []
 
 # Read and process each line in the file
 with open('trace1_srrip.txt', 'r') as file:
@@ -12,24 +11,17 @@ with open('trace1_srrip.txt', 'r') as file:
         
         # Only process lines with at least 5 entries (excluding the first)
         if len(values) >= 5:
-            # Calculate the average of all values
-            avg_all = sum(values) / len(values)
+            # Calculate the difference between the max and min values
+            max_min_diff = max(values) - min(values)
             
-            # Calculate the average of the top 3 values
-            avg_top_3 = sum(sorted(values, reverse=True)[:3]) / 3
-            
-            # Append the averages to respective lists
-            all_values_avg.append(avg_all)
-            top_3_values_avg.append(avg_top_3)
+            # Append the difference to the list
+            max_min_diffs.append(max_min_diff)
 
-# Plotting
+# Plotting the histogram of max-min differences
 plt.figure(figsize=(10, 5))
-plt.scatter(all_values_avg, top_3_values_avg, color='blue', label='Avg vs. Top 3 Avg')
-plt.xlabel('Average of All Values')
-plt.xlim(0, 400)
-plt.ylabel('Average of Top 3 Values')
-plt.ylim(0, 400)
-plt.title('Average of All Values vs. Average of Top 3 Values')
-plt.legend()
+plt.hist(max_min_diffs, bins=20, color='skyblue', edgecolor='black')
+plt.xlabel('Difference between Max and Min values')
+plt.ylabel('Frequency')
+plt.title('Histogram of Max-Min Differences in Each Line')
 plt.grid(True)
 plt.show()

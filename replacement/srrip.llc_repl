@@ -1,7 +1,7 @@
 #include "cache.h"
 
 #define maxRRPV 3
-uint32_t rrpv[LLC_SET][LLC_WAY];
+uint32_t llc_rrpv[LLC_SET][LLC_WAY];
 
 // initialize replacement state
 void CACHE::llc_initialize_replacement()
@@ -10,7 +10,7 @@ void CACHE::llc_initialize_replacement()
 
     for (int i=0; i<LLC_SET; i++) {
         for (int j=0; j<LLC_WAY; j++) {
-            rrpv[i][j] = maxRRPV;
+            llc_rrpv[i][j] = maxRRPV;
         }
     }
 }
@@ -22,11 +22,11 @@ uint32_t CACHE::llc_find_victim(uint32_t cpu, uint64_t instr_id, uint32_t set, c
     while (1)
     {
         for (int i=0; i<LLC_WAY; i++)
-            if (rrpv[set][i] == maxRRPV)
+            if (llc_rrpv[set][i] == maxRRPV)
                 return i;
 
         for (int i=0; i<LLC_WAY; i++)
-            rrpv[set][i]++;
+            llc_rrpv[set][i]++;
     }
 
     // WE SHOULD NOT REACH HERE
@@ -46,9 +46,9 @@ void CACHE::llc_update_replacement_state(uint32_t cpu, uint32_t set, uint32_t wa
     // cout << hex << " paddr: " << setw(12) << paddr << " ip: " << setw(8) << ip << " victim_addr: " << victim_addr << dec << endl;
     
     if (hit)
-        rrpv[set][way] = 0;
+        llc_rrpv[set][way] = 0;
     else
-        rrpv[set][way] = maxRRPV-1;
+        llc_rrpv[set][way] = maxRRPV-1;
 }
 
 // use this function to print out your own stats at the end of simulation

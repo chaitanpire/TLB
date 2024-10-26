@@ -3,4 +3,3 @@ obj/
 traces/
 .gitignore
 *.txt
-./logs
