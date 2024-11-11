@@ -22,6 +22,8 @@ class BLOCK {
         confidence,
 	pref_class;
     bool caused_rob_stall;
+    bool is_priority_set;
+    bool high_priority;
 
     uint64_t address,
              full_addr,
@@ -36,6 +38,8 @@ class BLOCK {
 
     BLOCK() {
         caused_rob_stall = false;
+        is_priority_set = false;
+        high_priority = false;
         valid = 0;
         ret_loc = -1;
         prefetch = 0;

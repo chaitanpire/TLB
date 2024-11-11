@@ -1,5 +1,5 @@
 #include "cache.h"
-
+#include <time.h>
 #define maxRRPV 3
 #include <set>
 uint32_t rrpv[STLB_SET][STLB_WAY];
@@ -9,7 +9,7 @@ std::set<uint32_t> ptes;
 void CACHE::stlb_initialize_replacement()
 {
     cout << "STLB has SRRIP replacement policy" << endl;
-
+    srand((unsigned int) time(NULL));
     for (int i = 0; i < STLB_SET; i++)
     {
         for (int j = 0; j < STLB_WAY; j++)
@@ -50,8 +50,26 @@ uint32_t CACHE::stlb_find_victim(uint32_t cpu, uint64_t instr_id, uint32_t set, 
         for (int i = 0; i < STLB_WAY; i++)
             if (rrpv[set][i] == maxRRPV)
             {
-                if(!current_set[i].caused_rob_stall)
-                    return i;
+                if(current_set[i].is_priority_set){
+                    if(!current_set[i].high_priority){
+                        return i;
+                    }
+                }
+                else{
+                    current_set[i].is_priority_set = true;
+                    if(!current_set[i].caused_rob_stall){
+                        current_set[i].high_priority = false;
+                    }
+                    else{
+                        if(((double) rand() / RAND_MAX) < 1/32){
+                            current_set[i].high_priority = true;
+                            return i;
+                        }
+                        else{
+                            current_set[i].high_priority = false;
+                        }
+                    }
+                }
             }
         
         for(int i=0;i<STLB_WAY;i++){

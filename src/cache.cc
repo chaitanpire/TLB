@@ -2922,6 +2922,8 @@ if((cache_type == IS_L1I || cache_type == IS_L1D) && reads_ready.size() == 0)
             if (block[set][way].valid == 0)
                 block[set][way].valid = 1;
             block[set][way].caused_rob_stall = packet->caused_rob_stall;
+            block[set][way].is_priority_set = false;
+            block[set][way].high_priority = false;
             block[set][way].dirty = 0;
             block[set][way].prefetch = (packet->type == PREFETCH || packet->type == PREFETCH_TRANSLATION || packet->type == TRANSLATION_FROM_L1D) ? 1 : 0;
             block[set][way].used = 0;
