@@ -21,6 +21,7 @@ class BLOCK {
         signature,
         confidence,
 	pref_class;
+    bool caused_rob_stall;
 
     uint64_t address,
              full_addr,
@@ -34,6 +35,7 @@ class BLOCK {
     uint32_t lru;
 
     BLOCK() {
+        caused_rob_stall = false;
         valid = 0;
         ret_loc = -1;
         prefetch = 0;
