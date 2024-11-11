@@ -110,6 +110,10 @@ extern uint32_t PAGE_TABLE_LATENCY, SWAP_LATENCY;
 class CACHE : public MEMORY {
   public:
     std::unordered_map<uint64_t, vector<uint64_t>> miss_latency_map;
+    int num_ties = 0;
+    int rob_stalls_caused=0;
+    int rob_stall_cycles_caused=0;
+
     uint32_t cpu;
     const string NAME;
     const uint32_t NUM_SET, NUM_WAY, NUM_LINE, WQ_SIZE, RQ_SIZE, PQ_SIZE, MSHR_SIZE;
@@ -189,6 +193,7 @@ class CACHE : public MEMORY {
         : NAME(v1), NUM_SET(v2), NUM_WAY(v3), NUM_LINE(v4), WQ_SIZE(v5), RQ_SIZE(v6), PQ_SIZE(v7), MSHR_SIZE(v8) {
 
         LATENCY = 0;
+
 
         // cache block
         block = new BLOCK* [NUM_SET];
@@ -294,13 +299,13 @@ class CACHE : public MEMORY {
     };*/
 
     // functions
-    int  add_rq(PACKET *packet),
-         add_wq(PACKET *packet),
-         add_pq(PACKET *packet);
+    int add_rq(PACKET *packet),
+        add_wq(PACKET *packet),
+        add_pq(PACKET *packet);
 
     void return_data(PACKET *packet),
-         operate(),
-         increment_WQ_FULL(uint64_t address);
+        operate(),
+        increment_WQ_FULL(uint64_t address);
 
     uint32_t get_occupancy(uint8_t queue_type, uint64_t address),
              get_size(uint8_t queue_type, uint64_t address);

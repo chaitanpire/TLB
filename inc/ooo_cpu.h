@@ -39,13 +39,13 @@ extern uint8_t TRACE_ENDS_STOP;
 class O3_CPU {
   public:
     uint32_t cpu;
-
+    int count_rob_update = 0;
     // trace
     FILE *trace_file;
     char trace_string[1024];
     char gunzip_command[1024];
     int context_switch, operating_index;
-
+    int count_operate;
     // instruction
     input_instr next_instr;
     input_instr current_instr;
@@ -119,6 +119,7 @@ class O3_CPU {
         trace_file = NULL;
 	context_switch = 0;
 	operating_index = -1;
+    count_operate = 0;
 	
 
         // instruction

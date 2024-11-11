@@ -87,16 +87,17 @@ class PACKET {
             drc_tag_read,
 	    critical_ip_flag;	//Neelu: Adding to indicate that current packet's ip has been identified as critical.
 
-    int fill_level, 
+    bool caused_rob_stall = false;
+    int fill_level,
         pf_origin_level,
-        rob_signal, 
-        rob_index, 
+        rob_signal,
+        rob_index,
         producer,
         delta,
         depth,
         signature,
         confidence,
-	late_pref;
+        late_pref;
 
     uint32_t pf_metadata;
 
@@ -318,7 +319,9 @@ class PACKET_QUEUE {
     };
 
     // functions
-    int check_queue(PACKET* packet);
+    int check_queue(PACKET* packet),
+        find_entry(uint64_t addr);
+
     void add_queue(PACKET* packet),
          remove_queue(PACKET* packet);
 };

@@ -527,7 +527,6 @@ void CACHE::handle_fill()
 
             // update replacement policy
             (this->*update_replacement_state)(fill_cpu, set, way, MSHR.entry[mshr_index].full_addr, MSHR.entry[mshr_index].ip, block[set][way].full_addr, MSHR.entry[mshr_index].type, 0);
-
             // COLLECT STATS
             sim_miss[fill_cpu][MSHR.entry[mshr_index].type]++;
             //Neelu: Capturing instruction stats for L2C
@@ -891,8 +890,8 @@ if (writeback_cpu == NUM_CPUS)
                     PACKET new_packet = WQ.entry[index];
                     //@Vishal: Send physical address to lower level and track physical address in MSHR  
                     new_packet.address = WQ.entry[index].full_physical_address >> LOG2_BLOCK_SIZE;
-                    new_packet.full_addr = WQ.entry[index].full_physical_address; 
-
+                    new_packet.full_addr = WQ.entry[index].full_physical_address;
+                    new_packet.caused_rob_stall = 0;
 
                     // add it to mshr (RFO miss)
                     add_nonfifo_queue(&MSHR, &new_packet); //@Vishal: Updated from add_mshr
@@ -1925,8 +1924,8 @@ if((cache_type == IS_L1I || cache_type == IS_L1D) && reads_ready.size() == 0)
                                 PACKET new_packet = RQ.entry[index];
                                 //@Vishal: Send physical address to lower level and track physical address in MSHR  
                                 new_packet.address = RQ.entry[index].full_physical_address >> LOG2_BLOCK_SIZE;
-                                new_packet.full_addr = RQ.entry[index].full_physical_address; 
-
+                                new_packet.full_addr = RQ.entry[index].full_physical_address;
+                                new_packet.caused_rob_stall = 0;
                                 add_nonfifo_queue(&MSHR, &new_packet); //@Vishal: Updated from add_mshr
                                 lower_level->add_rq(&new_packet);
                             }
@@ -3478,7 +3477,15 @@ if((cache_type == IS_L1I || cache_type == IS_L1D) && reads_ready.size() == 0)
 
             return -1;
         }
+        int PACKET_QUEUE::find_entry(uint64_t address)
+        {
+            for (uint32_t i = 0; i < SIZE; i++) {
+                if (entry[i].address == address)
+                    return i;
+            }
 
+            return -1;
+        }
         int CACHE::add_wq(PACKET *packet)
         {
 

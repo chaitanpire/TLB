@@ -9,5 +9,4 @@ for i in `ls -1 ./traces/`; do
     # ./bin/srrip_cost_aware_min-1core -warmup_instructions 25000000 -simulation_instructions 25000000 -traces ./traces/$i > ./logs_srrip/${i}/srrip_cost_aware_min.txt
     # ./bin/lru-1core -warmup_instructions 25000000 -simulation_instructions 25000000 -traces ./traces/$i > ./logs/${i}/lru.txt
     
-    mv collisions.txt ./logs_srrip/$i/
 done
