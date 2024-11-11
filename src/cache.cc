@@ -2,7 +2,7 @@
 #include "set.h"
 #include "ooo_cpu.h"
 #include "uncore.h"
-
+#include<time.h>
 #include<vector>
 
 #include<iterator>
@@ -2863,6 +2863,20 @@ if((cache_type == IS_L1I || cache_type == IS_L1D) && reads_ready.size() == 0)
             return NUM_WAY;
         }
 
+        double get_random_between_0_and_1() {
+    // Static variable to ensure seeding happens only once
+    static int seeded = 0;
+    
+    // Seed the random number generator if it hasn't been seeded yet
+    if (!seeded) {
+        srand(time(NULL));  // Seed using the current time
+        seeded = 1;  // Mark as seeded
+    }
+    
+    // Generate and return a random number between 0 and 1
+    return rand() / (RAND_MAX + 1.0);
+}
+
         void CACHE::fill_cache(uint32_t set, uint32_t way, PACKET *packet)
         {
 #ifdef SANITY_CHECK
@@ -2924,6 +2938,9 @@ if((cache_type == IS_L1I || cache_type == IS_L1D) && reads_ready.size() == 0)
             block[set][way].caused_rob_stall = packet->caused_rob_stall;
             block[set][way].is_priority_set = false;
             block[set][way].high_priority = false;
+            double r = get_random_between_0_and_1();
+            if ((r < 1/32) && block[set][way].caused_rob_stall)
+                block[set][way].high_priority = true;
             block[set][way].dirty = 0;
             block[set][way].prefetch = (packet->type == PREFETCH || packet->type == PREFETCH_TRANSLATION || packet->type == TRANSLATION_FROM_L1D) ? 1 : 0;
             block[set][way].used = 0;
