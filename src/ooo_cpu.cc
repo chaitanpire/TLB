@@ -576,7 +576,8 @@ uint32_t O3_CPU::add_to_rob(ooo_model_instr *arch_instr)
 
     ROB.entry[index] = *arch_instr;
     ROB.entry[index].event_cycle = current_core_cycle[cpu];
-
+    ROB.entry[index].dependency_address = 0;
+    ROB.entry[index].stall_by_stlb = false;
     ROB.occupancy++;
     ROB.tail++;
     if (ROB.tail >= ROB.SIZE)
@@ -2364,42 +2365,47 @@ void O3_CPU::update_rob()
     //@Vishal: VIPT ITLB processed entries will be handled by L1I cache.
     bool stalled_by_stlb = false;
     uint64_t stalled_address = 0;
-
-    // Check LQ and SQ for entries matching ROB head.
-    for (uint32_t i = 0; i < LQ.SIZE; ++i)
-    {
-        if (LQ.entry[i].rob_index == ROB.head)
-        {
-            stalled_address = LQ.entry[i].virtual_address;
-            break; // Found an entry, no need to check further in LQ
-        }
+    auto head_inst = ROB.entry[ROB.head];
+    if(head_inst.stall_by_stlb){
+        STLB.rob_stall_cycles_caused++;
+        STLB.rob_stall_caused[(head_inst.dependency_address)]++;
     }
-    if (!stalled_address)
-    { // If stalled address is not in LQ, check for address in SQ
-        for (uint32_t i = 0; i < SQ.SIZE; ++i)
+    else{
+    // Check LQ and SQ for entries matching ROB head.
+        for (uint32_t i = 0; i < LQ.SIZE; ++i)
         {
-            if (SQ.entry[i].rob_index == ROB.head)
+            if (LQ.entry[i].rob_index == ROB.head)
             {
-                stalled_address = SQ.entry[i].virtual_address;
-                break;
+                stalled_address = LQ.entry[i].virtual_address;
+                break; // Found an entry, no need to check further in LQ
             }
         }
-    }
-
-    // If stalled address found, check in STLB MSHR
-    if (stalled_address && STLB.MSHR.find_entry(stalled_address >> LOG2_PAGE_SIZE) != -1) // Convert address to page number before checking MSHR.
-    {
-        int stlb_rq_index = STLB.MSHR.find_entry(stalled_address >> LOG2_PAGE_SIZE);
-        
-        if(!STLB.MSHR.entry[stlb_rq_index].caused_rob_stall)
-        {
-            STLB.rob_stalls_caused++;
+        if (!stalled_address)
+        { // If stalled address is not in LQ, check for address in SQ
+            for (uint32_t i = 0; i < SQ.SIZE; ++i)
+            {
+                if (SQ.entry[i].rob_index == ROB.head)
+                {
+                    stalled_address = SQ.entry[i].virtual_address;
+                    break;
+                }
+            }
         }
-        STLB.rob_stall_cycles_caused++;
 
-        STLB.MSHR.entry[stlb_rq_index].caused_rob_stall = 1;
-        
-        
+        // If stalled address found, check in STLB MSHR
+        if (stalled_address && STLB.MSHR.find_entry(stalled_address >> LOG2_PAGE_SIZE) != -1) // Convert address to page number before checking MSHR.
+        {
+            int stlb_rq_index = STLB.MSHR.find_entry(stalled_address >> LOG2_PAGE_SIZE);
+            ROB.entry[ROB.head].dependency_address = stalled_address>>LOG2_PAGE_SIZE;
+            ROB.entry[ROB.head].stall_by_stlb = true;
+            if(!STLB.MSHR.entry[stlb_rq_index].caused_rob_stall)
+            {
+                STLB.rob_stalls_caused++;
+                STLB.MSHR.entry[stlb_rq_index].caused_rob_stall = 1;
+                STLB.rob_stall_cycles_caused++;
+                STLB.rob_stall_caused[(head_inst.dependency_address)]++;
+            }
+        }
     }
 
     // if (ITLB.PROCESSED.occupancy && (ITLB.PROCESSED.entry[ITLB.PROCESSED.head].event_cycle <= current_core_cycle[cpu]))

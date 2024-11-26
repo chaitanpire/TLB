@@ -1,0 +1,6 @@
+Trace,lru,srrip,srrip_cost_aware_max,srrip_cost_aware_min,srrip_rob_pref_1,srrip_rob_pref_32,srrip_rob_pref_8
+429.mcf-184B.champsimtrace.xz,118.837,115.411,113.972,111.022,114.165,115.697,115.559
+437.leslie3d-134B.champsimtrace.xz,210.902,194.648,191.527,196.778,196.364,195.411,195.887
+450.soplex-92B.champsimtrace.xz,75.5736,75.8519,75.7165,75.5344,75.624,75.6966,75.3544
+483.xalancbmk-716B.champsimtrace.xz,166.355,165.468,167.173,168.354,166.304,164.582,164.932
+605.mcf_s-665B.champsimtrace.xz,101.826,106.688,105.248,86.5915,101.167,107.267,106.353

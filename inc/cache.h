@@ -110,6 +110,10 @@ extern uint32_t PAGE_TABLE_LATENCY, SWAP_LATENCY;
 class CACHE : public MEMORY {
   public:
     std::unordered_map<uint64_t, vector<uint64_t>> miss_latency_map;
+    std::unordered_map<uint64_t, uint64_t> rob_stall_caused;
+    std::unordered_map<uint64_t, uint64_t> num_misses;
+    std::unordered_map<uint64_t, uint64_t> num_accesses;
+
     int num_ties = 0;
     int rob_stalls_caused=0;
     int rob_stall_cycles_caused=0;

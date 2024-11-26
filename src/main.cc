@@ -422,6 +422,9 @@ void reset_cache_stats(uint32_t cpu, CACHE *cache)
     cache->rob_stalls_caused = 0;
     cache->rob_stall_cycles_caused = 0;
     cache->num_ties = 0;
+    cache->rob_stall_caused.clear();
+    cache->num_accesses.clear();
+    cache->num_misses.clear();  
 
     cache->total_miss_latency = 0;
 

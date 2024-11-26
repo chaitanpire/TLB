@@ -9,7 +9,7 @@ std::set<uint32_t> ptes;
 void CACHE::stlb_initialize_replacement()
 {
     cout << "STLB has SRRIP replacement policy" << endl;
-    srand((unsigned int) time(NULL));
+    srand((unsigned int)time(NULL));
     for (int i = 0; i < STLB_SET; i++)
     {
         for (int j = 0; j < STLB_WAY; j++)
@@ -29,7 +29,6 @@ uint32_t CACHE::stlb_find_victim(uint32_t cpu, uint64_t instr_id, uint32_t set, 
 
     while (1)
     {
-        FILE *fp = fopen("collisions.txt", "a");
         for (int i = 0; i < STLB_WAY; i++)
         {
             if (rrpv[set][i] == maxRRPV)
@@ -37,30 +36,29 @@ uint32_t CACHE::stlb_find_victim(uint32_t cpu, uint64_t instr_id, uint32_t set, 
 
                 if (miss_latency_map[current_set[i].full_addr >> LOG2_PAGE_SIZE].size())
                 {
-                    fprintf(fp, "%llu : %llu   ", (unsigned long long)current_set[i].full_addr, (unsigned long long)miss_latency_map[current_set[i].full_addr >> LOG2_PAGE_SIZE].back());
                     num_max++;
                 }
             }
         }
-        fprintf(fp, "\n");
-        fclose(fp);
 
         if (num_max > 1)
             num_ties++;
         for (int i = 0; i < STLB_WAY; i++)
             if (rrpv[set][i] == maxRRPV)
             {
-                if (current_set[i].high_priority){
+                if (!current_set[i].high_priority)
+                {
                     return i;
                 }
             }
-        
-        for(int i=0;i<STLB_WAY;i++){
-            if(rrpv[set][i] == maxRRPV){
+
+        for (int i = 0; i < STLB_WAY; i++)
+        {
+            if (rrpv[set][i] == maxRRPV)
+            {
                 return i;
             }
         }
-
 
         for (int i = 0; i < STLB_WAY; i++)
             rrpv[set][i]++;
@@ -78,6 +76,7 @@ void CACHE::stlb_update_replacement_state(uint32_t cpu, uint32_t set, uint32_t w
     if ((type == WRITEBACK) && ip)
         assert(0);
 
+    num_accesses[full_addr >> LOG2_PAGE_SIZE]++;
     // uncomment this line to see the STLB accesses
     // cout << "CPU: " << cpu << "  STLB " << setw(9) << TYPE_NAME << " set: " << setw(5) << set << " way: " << setw(2) << way;
     // cout << hex << " paddr: " << setw(12) << paddr << " ip: " << setw(8) << ip << " victim_addr: " << victim_addr << dec << endl;
@@ -87,8 +86,10 @@ void CACHE::stlb_update_replacement_state(uint32_t cpu, uint32_t set, uint32_t w
 
     if (hit)
         rrpv[set][way] = 0;
-    else
+    else{
         rrpv[set][way] = maxRRPV - 1;
+        num_misses[full_addr >> LOG2_PAGE_SIZE]++;
+    }
 }
 
 void CACHE::stlb_replacement_final_stats()
@@ -104,8 +105,16 @@ void CACHE::stlb_replacement_final_stats()
     //         cout << jt << " ";
     //     }
     //     cout << endl;
-    // }
+    // }                                 
     cout << "Number of ties in STLB: " << num_ties << endl;
     cout << "ROB Stalls Caused by STLB: " << rob_stalls_caused << endl;
     cout << "ROB Stall cycles caused by STLB: " << rob_stall_cycles_caused << endl;
+
+    for (auto it : rob_stall_caused){
+        cout << "ROB Stall Caused by STLB for instr_id: " << it.first << " count: " << it.second << endl;
+        cout << "Number of misses for instr_id: " << num_misses[it.first] << endl;
+        cout << "Number of accesses for instr_id: " << num_accesses[it.first] << endl;
+    }
+
+    
 }

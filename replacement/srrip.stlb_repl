@@ -67,6 +67,8 @@ uint32_t CACHE::stlb_find_victim(uint32_t cpu, uint64_t instr_id, uint32_t set, 
 void CACHE::stlb_update_replacement_state(uint32_t cpu, uint32_t set, uint32_t way, uint64_t full_addr, uint64_t ip, uint64_t victim_addr, uint32_t type, uint8_t hit)
 {
     ptes.insert(full_addr >> LOG2_PAGE_SIZE);
+    num_accesses[full_addr >> LOG2_PAGE_SIZE]++;
+
     if ((type == WRITEBACK) && ip)
         assert(0);
 
@@ -79,8 +81,10 @@ void CACHE::stlb_update_replacement_state(uint32_t cpu, uint32_t set, uint32_t w
 
     if (hit)
         rrpv[set][way] = 0;
-    else
+    else{
         rrpv[set][way] = maxRRPV - 1;
+        num_misses[full_addr >> LOG2_PAGE_SIZE]++;
+    }
 }
 
 void CACHE::stlb_replacement_final_stats()
@@ -96,8 +100,16 @@ void CACHE::stlb_replacement_final_stats()
     //         cout << jt << " ";
     //     }
     //     cout << endl;
-    // }
+    // }                                 
     cout << "Number of ties in STLB: " << num_ties << endl;
     cout << "ROB Stalls Caused by STLB: " << rob_stalls_caused << endl;
     cout << "ROB Stall cycles caused by STLB: " << rob_stall_cycles_caused << endl;
+
+    for (auto it : rob_stall_caused){
+        cout << "ROB Stall Caused by STLB for instr_id: " << it.first << " count: " << it.second << endl;
+        cout << "Number of misses for instr_id: " << num_misses[it.first] << endl;
+        cout << "Number of accesses for instr_id: " << num_accesses[it.first] << endl;
+    }
+
+    
 }
